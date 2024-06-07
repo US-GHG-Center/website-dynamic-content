@@ -1,0 +1,34 @@
+name: Banner
+about: Use this template to create a banner for the US GHG Center website.
+
+title: "[Banner]"
+
+body:
+  - type: textarea
+    id: banner_text
+    attributes:
+      label: Banner Text
+      description: Enter the text for the banner
+      placeholder: Enter banner text here
+    validations:
+      required: true
+
+  - type: input
+    id: expires_on
+    attributes:
+      label: Expires On
+      description: Enter the expiration date of the banner (YYYY-MM-DD)
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+      pattern: ^\d{4}-\d{2}-\d{2}$
+
+  - type: input
+    id: link
+    attributes:
+      label: Link
+      description: Enter the link associated with the banner
+      placeholder: Enter link here
+    validations:
+      required: true
+      format: uri
