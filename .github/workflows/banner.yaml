@@ -22,7 +22,7 @@ jobs:
         uses: zachleat/github-issue-to-json-file@v3.0.14
         with:
           # This tells the action which GitHub Issue Form template file to use
-          issue-template: "banner.yml"
+          issue-template: "banner.yaml"
           # This controls which property we use to key the file name hash off of (values should be unique in your data set)
           hash-property-name: "url"
 
