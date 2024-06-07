@@ -1,0 +1,39 @@
+name: Update banner
+
+on:
+  issues:
+    # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#issues
+    types:
+      - opened
+      - edited
+      - reopened
+      - labeled
+
+jobs:
+  update_files:
+    runs-on: ubuntu-latest
+    name: Convert New Issue to GHG Dashboard Dynamic Data
+    # require a `banner` label for moderation
+    if: contains( github.event.issue.labels.*.name, 'banner')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: GitHub Issue to JSON
+        uses: zachleat/github-issue-to-json-file@v3.0.14
+        with:
+          # This tells the action which GitHub Issue Form template file to use
+          issue-template: "banner.yml"
+          # This controls which property we use to key the file name hash off of (values should be unique in your data set)
+          hash-property-name: "url"
+
+      - name: Update the existing files
+        run: python banner.py
+
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git checkout -b staging
+          git add banner.json
+          git commit -m "Updating banner for #${{ env.IssueNumber }}"
+          git push
