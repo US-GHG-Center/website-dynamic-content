@@ -3,6 +3,7 @@ import os
 
 # Get the output file
 files = os.list_dir("_data")
+print(files)
 # Read the output file
 new_banner = json.load(open(f"_data/{files[0]}"))
 print(new_banner)
