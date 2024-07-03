@@ -67,7 +67,7 @@ jobs:
             fs.writeFileSync('banner.json', jsonContent);
 
       - name: Update the existing files
-        run: python banner.py
+        run: python scripts/banner.py
 
       - name: Commit files
         run: |
