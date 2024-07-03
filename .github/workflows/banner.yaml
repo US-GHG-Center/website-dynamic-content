@@ -19,7 +19,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: GitHub Issue to JSON
-        uses: zachleat/github-issue-to-json-file@v3.0.14
+        uses: actions/github-script@v6
+#        uses: zachleat/github-issue-to-json-file@v3.0.14
         with:
           # This tells the action which GitHub Issue Form template file to use
           issue-template: "banner.yaml"
