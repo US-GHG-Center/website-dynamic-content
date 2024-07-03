@@ -2,6 +2,9 @@ import json
 import os
 
 # Get the output file
+if not os.path.exists("_data"):
+    os.makedirs("_data")
+
 files = os.listdir("_data")
 print(files)
 # Read the output file
