@@ -84,4 +84,4 @@ jobs:
           git checkout -b staging
           git add banner.json
           git commit -m "Updating banner for #${{ github.event.issue.number }}"
-          git push
+          git push --set-upstream origin staging
