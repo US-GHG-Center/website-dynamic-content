@@ -83,5 +83,5 @@ jobs:
           git config --local user.name "GitHub Action"
           git checkout -b staging
           git add banner.json
-          git commit -m "Updating banner for #${{ github.event.issue.number }}"
-          git push --set-upstream origin staging
+          git commit -m "Updating banner for #${{ env.IssueNumber }}"
+          git push
