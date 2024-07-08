@@ -82,11 +82,32 @@ jobs:
       - name: Update the existing files
         run: python scripts/banner.py
 
-      - name: Commit files
+#      - name: Commit files
+#        run: |
+#          git config --local user.email "action@github.com"
+#          git config --local user.name "GitHub Action"
+#          git checkout -b staging
+#          git add banner.json
+#          git commit -m "Updating banner for #${{ github.event.issue.number }}"
+#          git push --set-upstream origin staging
+
+      - name: Configure Git
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git checkout -b staging
+
+      - name: Checkout or Create Staging Branch
+        run: |
+          git fetch
+          if git show-ref --verify --quiet refs/heads/staging; then
+            git checkout staging
+            git pull origin staging
+          else
+            git checkout -b staging
+          fi
+
+      - name: Commit files
+        run: |
           git add banner.json
           git commit -m "Updating banner for #${{ github.event.issue.number }}"
-          git push
+          git push --set-upstream origin staging
