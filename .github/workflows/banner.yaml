@@ -67,19 +67,13 @@ jobs:
       - name: GitHub Issue to JSON
         uses: actions/github-script@v6
         with:
-          script: |
-            const fs = require('fs');
-            const issue = context.payload.issue;
-            const jsonContent = JSON.stringify(issue, null, 2);
-            if (!fs.existsSync('_data')){
-              fs.mkdirSync('_data');
-            }
-            fs.writeFileSync('_data/banner.json', jsonContent);
-            console.log('Issue converted to JSON and written to _data/banner.json');
-            console.log('Content:', jsonContent);
+        # This tells the action which GitHub Issue Form template file to use
+            issue-template: "banner.yaml"
+                  # This controls which property we use to key the file name hash off of (values should be unique in your data set)
+            hash-property-name: "url"
 
-      - name: List _data directory
-        run: ls -l _data
+#      - name: List _data directory
+#        run: ls -l _data
 
       - name: Update the existing files
         run: python scripts/banner.py
@@ -91,4 +85,4 @@ jobs:
           git checkout -b staging
           git add banner.json
           git commit -m "Updating banner for #${{ env.IssueNumber }}"
-          git push --set-upstream origin staging
+          git push
