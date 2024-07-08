@@ -86,7 +86,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-
       - name: Checkout or Create Staging Branch
         run: |
           git fetch
@@ -104,5 +103,5 @@ jobs:
 
       - name: Push changes
         run: |
-          git pull --rebase origin staging
+          git pull --rebase --strategy-option=theirs origin staging
           git push --set-upstream origin staging
