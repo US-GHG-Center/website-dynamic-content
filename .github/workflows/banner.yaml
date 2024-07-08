@@ -82,15 +82,6 @@ jobs:
       - name: Update the existing files
         run: python scripts/banner.py
 
-#      - name: Commit files
-#        run: |
-#          git config --local user.email "action@github.com"
-#          git config --local user.name "GitHub Action"
-#          git checkout -b staging
-#          git add banner.json
-#          git commit -m "Updating banner for #${{ github.event.issue.number }}"
-#          git push --set-upstream origin staging
-
       - name: Configure Git
         run: |
           git config --local user.email "action@github.com"
@@ -110,4 +101,8 @@ jobs:
         run: |
           git add banner.json
           git commit -m "Updating banner for #${{ github.event.issue.number }}"
+
+      - name: Push changes
+        run: |
+          git pull --rebase origin staging
           git push --set-upstream origin staging
