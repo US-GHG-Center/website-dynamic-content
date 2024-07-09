@@ -126,6 +126,7 @@ jobs:
             git pull origin staging
           else
             git checkout -b staging
+          fi
 
       - name: Commit files
         id: commit-changes
