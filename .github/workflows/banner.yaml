@@ -55,6 +55,7 @@ jobs:
             git pull origin staging
           else
             git checkout -b staging
+            git push --set-upstream origin staging
           fi
 
       - name: Commit files
