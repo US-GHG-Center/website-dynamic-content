@@ -58,18 +58,26 @@ jobs:
             git push --set-upstream origin staging
           fi
 
-      - name: Commit files
-        run: |
-          git add banner.json
-          git commit -m "Updating banner for #${{ github.event.issue.number }}"
-
-      - name: Push changes
-        run: |
-          git pull --rebase --strategy-option=theirs origin staging
-          git push --set-upstream origin staging
+#      - name: Commit files
+#        run: |
+#          git add banner.json
+#          git commit -m "Updating banner for #${{ github.event.issue.number }}"
+#
+#      - name: Push changes
+#        run: |
+#          git pull --rebase --strategy-option=theirs origin staging
+#          git push --set-upstream origin staging
+#
+#      - name: Create pull request to main
+#        if: env.changes_detected == 'true'
+#        run: |
+#          echo -e "Scheduled banner update ${{ github.event.issue.number }}. 🔔 @slesaad\nAutomatically created by Github action" > msg
+#          gh pr create -H staging -B main --title 'Update banner for #${{ github.event.issue.number }}' --body-file msg
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create pull request to main
-        if: env.changes_detected == 'true'
+        if: success()
         run: |
           echo -e "Scheduled banner update ${{ github.event.issue.number }}. 🔔 @slesaad\nAutomatically created by Github action" > msg
           gh pr create -H staging -B main --title 'Update banner for #${{ github.event.issue.number }}' --body-file msg
