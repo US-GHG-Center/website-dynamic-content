@@ -36,7 +36,6 @@ jobs:
             fs.writeFileSync('_data/issue.json', jsonContent);
             console.log('Issue converted to JSON and written to _data/issue.json');
             console.log('Content:', jsonContent);
-
       - name: List _data directory
         run: ls -l _data
 
@@ -47,7 +46,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-
       - name: Checkout or Create Staging Branch
         run: |
           git fetch
@@ -57,24 +55,21 @@ jobs:
           else
             git checkout -b staging
           fi
-
       - name: Commit files
         id: commit-changes
         run: |
           git add banner.json
           git diff-index --quiet HEAD || echo "changes_detected=true" >> $GITHUB_ENV
           git commit -m "Updating banner for #${{ github.event.issue.number }}" || echo "No changes to commit"
-
       - name: Push changes
         if: env.changes_detected == 'true'
         run: |
           git pull --rebase --strategy-option=theirs origin staging
           git push --set-upstream origin staging
-
       - name: Create pull request to main
         if: env.changes_detected == 'true'
         run: |
-          echo -e "Scheduled banner update ${{ github.event.issue.number }}. 🔔 @slesaad\nAutomatically created by Github action" > msg
+          echo -e "Banner update information for issue ${{ github.event.issue.number }}. 🔔 @slesaad\nAutomatically created by Github action" > msg
           gh pr create -H staging -B main --title 'Update banner for #${{ github.event.issue.number }}' --body-file msg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
