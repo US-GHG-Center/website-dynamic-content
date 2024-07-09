@@ -23,9 +23,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-#      - name: GitHub Issue to JSON
-#        uses: actions/github-script@v6
-#        with:
+      - name: GitHub Issue to JSON
+        uses: actions/github-script@v6
+        with:
 #          script: |
 #            const fs = require('fs');
 #            const issue = context.payload.issue;
@@ -36,9 +36,8 @@ jobs:
 #            fs.writeFileSync('_data/issue.json', jsonContent);
 #            console.log('Issue converted to JSON and written to _data/issue.json');
 #            console.log('Content:', jsonContent);
-#
-#      - name: List _data directory
-#        run: ls -l _data
+        issue-template: "ISSUE_TEMPLATE/banner.yaml"
+        hash-property-name: "URL"
 
       - name: Update the existing files
         run: python scripts/banner.py
