@@ -67,12 +67,11 @@ jobs:
           git pull --rebase --strategy-option=theirs origin staging
           git push --set-upstream origin staging
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: main
-          head: staging
-          title: "Update banner for #${{ github.event.issue.number }}"
-          body: "This pull request updates the banner based on the issue #${{ github.event.issue.number }}."
-          reviewers: slesaad
+#      - name: Create Pull Request
+#        uses: peter-evans/create-pull-request@v5
+#        with:
+#          base: main
+#          head: staging
+#          title: "Update banner for #${{ github.event.issue.number }}"
+#          body: "This pull request updates the banner based on the issue #${{ github.event.issue.number }}."
+#          reviewers: slesaad
