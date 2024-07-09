@@ -75,6 +75,6 @@ jobs:
         if: env.changes_detected == 'true'
         run: |
           echo -e "Scheduled banner update ${{ github.event.issue.number }}. 🔔 @slesaad\nAutomatically created by Github action" > msg
-          gh pr create -H staging -B main --title 'Update banner for #${{ github.event.issue.number }}' --body-file msg
+          gh pr create -H staging -B main --title 'Update banner for #${{ github.event.issue.number }}' --body-file msg --reviewer slesaad
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
