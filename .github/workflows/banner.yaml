@@ -36,7 +36,7 @@ jobs:
 #            fs.writeFileSync('_data/issue.json', jsonContent);
 #            console.log('Issue converted to JSON and written to _data/issue.json');
 #            console.log('Content:', jsonContent);
-        issue-template: "ISSUE_TEMPLATE/banner.yaml"
+        issue-template: "banner.yaml"
         hash-property-name: "URL"
 
       - name: Update the existing files
