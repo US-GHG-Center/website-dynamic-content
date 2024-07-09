@@ -1,82 +1,3 @@
-#name: Update banner
-#
-#on:
-#  issues:
-#    types:
-#      - opened
-#      - edited
-#      - reopened
-#      - labeled
-#
-#jobs:
-#  update_files:
-#    runs-on: ubuntu-latest
-#
-#    permissions:
-#      contents: write
-#      pull-requests: write
-#
-#    name: Convert New Issue to GHG Dashboard Dynamic Data
-#    if: contains(github.event.issue.labels.*.name, 'banner')
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#
-#      - name: GitHub Issue to JSON
-#        uses: actions/github-script@v6
-#        with:
-#          script: |
-#            const fs = require('fs');
-#            const issue = context.payload.issue;
-#            const jsonContent = JSON.stringify(issue, null, 2);
-#            if (!fs.existsSync('_data')){
-#              fs.mkdirSync('_data');
-#            }
-#            fs.writeFileSync('_data/issue.json', jsonContent);
-#            console.log('Issue converted to JSON and written to _data/issue.json');
-#            console.log('Content:', jsonContent);
-#
-#      - name: List _data directory
-#        run: ls -l _data
-#
-#      - name: Update the existing files
-#        run: python scripts/banner.py
-#
-#      - name: Configure Git
-#        run: |
-#          git config --local user.email "action@github.com"
-#          git config --local user.name "GitHub Action"
-#
-#      - name: Checkout or Create Staging Branch
-#        run: |
-#          git fetch
-#          if git show-ref --verify --quiet refs/heads/staging; then
-#            git checkout staging
-#            git pull origin staging
-#          else
-#            git checkout -b staging
-#          fi
-#
-#      - name: Commit files
-#        run: |
-#          git add banner.json
-#          git commit -m "Updating banner for #${{ github.event.issue.number }}"
-#
-#      - name: Push changes
-#        run: |
-#          git pull --rebase --strategy-option=theirs origin staging
-#          git push --set-upstream origin staging
-#
-#      - name: Create Pull Request
-#        uses: peter-evans/create-pull-request@v5
-#        with:
-#          base: main
-#          head: staging
-#          title: "Update banner for #${{ github.event.issue.number }}"
-#          body: "This pull request updates the banner based on the issue #${{ github.event.issue.number }}."
-#          reviewers: slesaad
-
-
 name: Update banner
 
 on:
@@ -95,8 +16,8 @@ jobs:
       contents: write
       pull-requests: write
 
+    name: Convert New Issue to GHG Dashboard Dynamic Data
     if: contains(github.event.issue.labels.*.name, 'banner')
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -108,7 +29,7 @@ jobs:
             const fs = require('fs');
             const issue = context.payload.issue;
             const jsonContent = JSON.stringify(issue, null, 2);
-            if (!fs.exists('_data')){
+            if (!fs.existsSync('_data')){
               fs.mkdirSync('_data');
             }
             fs.writeFileSync('_data/issue.json', jsonContent);
@@ -149,7 +70,6 @@ jobs:
 #      - name: Create Pull Request
 #        uses: peter-evans/create-pull-request@v5
 #        with:
-#          token: ${{ secrets.GITHUB_TOKEN }}
 #          base: main
 #          head: staging
 #          title: "Update banner for #${{ github.event.issue.number }}"
