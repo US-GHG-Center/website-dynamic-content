@@ -66,12 +66,29 @@ jobs:
         run: |
           git pull --rebase --strategy-option=theirs origin staging
           git push --set-upstream origin staging
+      - name: Create Pull Request
+        id: create_pr
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: pullRequest } = await github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Updating banner for #${{ github.event.issue.number }}`,
+              head: 'staging',
+              base: 'main',
+              body: `This pull request updates the banner for issue #${{ github.event.issue.number }}.`,
+            });
+            return pullRequest;
 
-#      - name: Create Pull Request
-#        uses: peter-evans/create-pull-request@v5
-#        with:
-#          base: main
-#          head: staging
-#          title: "Update banner for #${{ github.event.issue.number }}"
-#          body: "This pull request updates the banner based on the issue #${{ github.event.issue.number }}."
-#          reviewers: slesaad
+      - name: Add Reviewer to Pull Request
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pullRequestNumber = core.getInput('create_pr').pullRequest.number;
+            await github.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pullRequestNumber,
+              reviewers: ['slesaad'],
+            });
