@@ -129,16 +129,18 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-      - name: Checkout or Create Staging Branch
+      - name: Delete existing staging branch if it exists
         run: |
           git fetch
           if git show-ref --verify --quiet refs/remotes/origin/staging; then
-            git checkout staging
-            git reset --hard origin/staging
-          else
-            git checkout -b staging
-            git push --set-upstream origin staging
+            git push origin --delete staging
           fi
+
+      - name: Checkout or Create Staging Branch
+        run: |
+          git fetch
+          git checkout -b staging
+          git push --set-upstream origin staging
 
       - name: Commit files
         id: commit-changes
