@@ -52,7 +52,7 @@ jobs:
           git fetch
           if git show-ref --verify --quiet refs/remotes/origin/staging; then
             git branch -D staging
-            git push origin --delete staging
+#            git push origin --delete staging
           fi
           git checkout -b staging
           git push --set-upstream origin staging
