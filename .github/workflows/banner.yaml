@@ -128,15 +128,21 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
+      - name: Commit changes before branch switch
+        run: |
+          git add banner.json
+          git commit -m "Committing changes before branch switch" || echo "No changes to commit"
+
       - name: Checkout or Create Staging Branch
         run: |
           git fetch
           if git show-ref --verify --quiet refs/remotes/origin/staging; then
             git checkout staging
-            git reset --hard origin/staging
-          else
-            git checkout -b staging
+            git branch -D staging
+            git push origin --delete staging
           fi
+          git checkout -b staging
+          git push --set-upstream origin staging
 
       - name: Commit files
         id: commit-changes
